@@ -1,0 +1,59 @@
+<head>
+        <title>Proxy Link Generator</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type ="text/javascript"
+            src ="http://www.google.com/jsapi"></script> <!-- You can also use "jquery-1.7.js" as your src-->
+                    
+        <script type ="text/javascript">
+
+            //<![CDATA[
+            google.load("jquery", "1");          
+            
+            $(document).ready(init);     
+                        
+            function init() { // clears the form                                
+                $("#txtInput").val("");                
+            } // end init           
+                      
+            function proxify() { // adds proxy prefix to submitted link and percent-encodes it
+                var doi = $("#txtInput").val();
+                var doiproxied = "http://proxy-um.researchport.umd.edu/login?url=https://doi.org/" + doi; // add the proxy prefix to the user input;
+                var permaproxyencoded = encodeURIComponent(doiproxied); // URL-encode the whole link
+                bitly(permaproxyencoded);                             
+            } // end proxify    
+                           
+             function bitly(longURL) { // sends proxied and percent-encoded link to Bitly API                             
+                 var login = ""; // put your Bitly user name here
+				 var apiKey = ""; // put your Bitly API key here
+				 var baseURL = "http://api.bitly.com/v3/shorten?";
+				 var url = baseURL + "login=" + login + "&apiKey=" + apiKey + "&longUrl=" + longURL + "&format=json";
+                 $.getJSON(url, checkData);                                              
+             } //end bitly           
+             
+             function checkData(data) { //checks status of Bitly API request and when finished adds the shortened Bitly link to the output textbox
+                $("#txtOutput").val("");
+                var test = data.data.url;
+                window.open(test);
+             } // end checkData                         
+             
+               //]]>
+        </script>
+    </head>
+    <body>        
+        <p>Insert a DOI into the form below and click the submit button. The corresponding article will open in a new window or tab.</p>
+         <form>
+            <fieldset>
+                <label>Insert doi: </label>
+                <input type = "text"
+                       id ="txtInput" 
+                       onclick = "select()"/>                      
+                <input type = "button" 
+                       value = "submit"
+                       onclick = "proxify()" /> 
+                <input type = "button"
+                       value = "clear"
+                       onclick = "init()" /> <br>
+            </fieldset>
+        </form>        
+    </body>
+</html>
