@@ -6,7 +6,7 @@ The resulting link will route the user through the University of Maryland's prox
 
 Take a look at a [working example](https://umd.libapps.com/libguides/admin_c.php?g=326432&p=3398458)
 
-To adapt to your own library you need to make three changes to proxify-umd.html:
+To adapt to your own library you need to make three changes to proxify-umd.doi.html:
 
 1. Change ```var proxyprefix``` to your own institution's proxy prefix
 2. Change ```var key``` to your own Bitly API key.
